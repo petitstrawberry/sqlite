@@ -6268,7 +6268,7 @@ static int unixOpen(
 #if SQLITE_ENABLE_LOCKING_STYLE
   int isAutoProxy  = (flags & SQLITE_OPEN_AUTOPROXY);
 #endif
-#if defined(__APPLE__) || SQLITE_ENABLE_LOCKING_STYLE
+#if defined(__APPLE__) || (SQLITE_ENABLE_LOCKING_STYLE && !defined(__scarlet__))
   struct statfs fsInfo;
 #endif
 
@@ -6459,7 +6459,7 @@ static int unixOpen(
   }
 #endif
 
-#if defined(__APPLE__) || SQLITE_ENABLE_LOCKING_STYLE
+#if defined(__APPLE__) || (SQLITE_ENABLE_LOCKING_STYLE && !defined(__scarlet__))
   if( fstatfs(fd, &fsInfo) == -1 ){
     storeLastErrno(p, errno);
     robust_close(p, fd, __LINE__);
@@ -6481,7 +6481,7 @@ static int unixOpen(
   if( isNewJrnl )               ctrlFlags |= UNIXFILE_DIRSYNC;
   if( flags & SQLITE_OPEN_URI ) ctrlFlags |= UNIXFILE_URI;
 
-#if SQLITE_ENABLE_LOCKING_STYLE
+#if SQLITE_ENABLE_LOCKING_STYLE && !defined(__scarlet__)
 #if SQLITE_PREFER_PROXY_LOCKING
   isAutoProxy = 1;
 #endif
