@@ -140,7 +140,7 @@
 # include <limits.h>
 #endif /* OS_VXWORKS */
 
-#if defined(__APPLE__) || SQLITE_ENABLE_LOCKING_STYLE
+#if defined(__APPLE__) || (SQLITE_ENABLE_LOCKING_STYLE && !defined(__scarlet__))
 # include <sys/mount.h>
 #endif
 
